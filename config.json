@@ -1,0 +1,7 @@
+{
+	"globSass": "src/main/resources/META-INF/resources/**/*.scss",
+	"globJs": "src/main/resources/META-INF/resources/**/*.js",
+	"globJsp": "src/main/resources/META-INF/resources/**/*.jsp",
+	"globSoy": "src/main/resources/META-INF/resources/**/*.soy",
+	"pathExploded": "./build/exploded"
+}
