@@ -21,10 +21,4 @@ for (var task in gulp.tasks) {
 
 var argv = yargs.argv;
 
-if (!argv._.length) {
-	console.log(yargs.help());
-
-	process.exit(0);
-}
-
 gulp.start.apply(gulp, argv._);

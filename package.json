@@ -1,4 +1,9 @@
 {
+  "author": "Bruno Basto <bruno.basto@liferay.com>",
+  "license": "MIT",
+  "bin": {
+    "lwatch": "./bin/cli.js watch"
+  },
   "dependencies": {
     "browser-sync": "^2.11.2",
     "gogo-shell": "0.0.5",
