@@ -1,11 +1,13 @@
 'use strict';
 
+var browserSync = require('browser-sync').create('liferay-watch');
 var config = require('../config');
 var gulp = require('gulp');
+var path = require('path');
 var runSequence = require('run-sequence');
 
 gulp.task('watch', [], function(done) {
-	runSequence('unjar', 'build-sass', 'build-javascript', 'build-jsp', function() {
+	runSequence('unjar', 'build-sass', 'build-javascript', 'build-jsp', 'browser-sync', function() {
 		console.log('[lwatch] Listening for changes...');
 
 		gulp.watch(config.globSass, function(){
@@ -26,5 +28,25 @@ gulp.task('watch', [], function(done) {
 		});
 
 		done();
+	});
+});
+
+gulp.task('browser-sync', function() {
+	browserSync.init({
+		files: [{
+			match: path.join(config.pathExploded, '**/*.*'),
+			options: {
+				ignored: '**/*.jsp'
+			}
+		}],
+		proxy: {
+			target: 'http://localhost:8080',
+			ws: true
+		},
+		open: false,
+		port: 8081,
+		ui: false,
+		reloadDelay: 500,
+		reloadOnRestart: true
 	});
 });
