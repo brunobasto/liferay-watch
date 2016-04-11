@@ -14,7 +14,9 @@ gulp.task('build-jsp', [], function(done) {
 		runSequence('install', function() {
 			console.log('[JSP] Done.');
 
-			browserSync.get('liferay-watch').reload();
+			if (global.browserSync) {
+				browserSync.get('liferay-watch').reload();
+			}
 
 			done();
 		});
