@@ -1,3 +1,5 @@
+'use strict';
+
 var GogoShell = require('gogo-shell');
 
 module.exports = {

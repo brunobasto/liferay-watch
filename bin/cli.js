@@ -3,8 +3,10 @@
 var gulp = require('gulp');
 
 var yargs = require('yargs')
-	.string('_')
-	.usage('lwatch [command] [options]')
+	.usage('Usage: lwatch [options]')
+	.boolean('browser')
+	.alias('b', 'browser')
+	.describe('browser', 'Refreshes browser whenever a change is detected')
 	.alias('v', 'version')
 	.describe('version', 'Prints current version')
 	.help('h')
@@ -15,10 +17,8 @@ var yargs = require('yargs')
 
 require('../gulpfile');
 
-for (var task in gulp.tasks) {
-	yargs.command(task, 'Gulp task');
+if (yargs.argv.browser) {
+	global.browserSync = true;
 }
 
-var argv = yargs.argv;
-
-gulp.start.apply(gulp, argv._);
+gulp.start.apply(gulp, ['watch']);

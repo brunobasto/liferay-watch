@@ -9,7 +9,7 @@ var path = require('path');
 gulp.task('install', [], function(done) {
 	var explodedDir = path.resolve(config.pathExploded);
 
-	console.log('[install] Installing exploded bundle...');
+	console.log('[install] Installing unpacked bundle...');
 
 	bnd.getSymbolicName(process.cwd(), function(symbolicName) {
 		gogo.getBundleId(symbolicName, function(bundleId) {

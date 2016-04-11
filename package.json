@@ -2,7 +2,7 @@
   "author": "Bruno Basto <bruno.basto@liferay.com>",
   "license": "MIT",
   "bin": {
-    "lwatch": "./bin/cli.js watch"
+    "lwatch": "./bin/cli.js"
   },
   "dependencies": {
     "browser-sync": "^2.11.2",
@@ -20,5 +20,5 @@
     "liferay-watch"
   ],
   "name": "liferay-watch",
-  "version": "1.0.0"
+  "version": "1.0.4"
 }

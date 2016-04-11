@@ -7,8 +7,12 @@ var path = require('path');
 var runSequence = require('run-sequence');
 
 gulp.task('watch', [], function(done) {
-	runSequence('unjar', 'build-sass', 'build-javascript', 'build-jsp', 'browser-sync', function() {
+	runSequence('unjar', 'build-sass', 'build-javascript', 'build-jsp', function() {
 		console.log('[lwatch] Listening for changes...');
+
+		if (global.browserSync) {
+			runSequence('browser-sync');
+		}
 
 		gulp.watch(config.globSass, function(){
 			runSequence('build-sass');
@@ -39,8 +43,14 @@ gulp.task('browser-sync', function() {
 				ignored: '**/*.jsp'
 			}
 		}],
+		rewriteRules: [
+			{
+				match: /8080/g,
+				replace: '8081'
+			}
+		],
 		proxy: {
-			target: 'http://localhost:8080',
+			target: 'localhost:8080',
 			ws: true
 		},
 		open: false,
