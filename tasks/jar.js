@@ -1,7 +1,7 @@
 'use strict';
 
 var bnd = require('./lib/bnd');
-var config = require('../config');
+var config = require('./lib/configs');
 var gogo = require('./lib/gogo');
 var gulp = require('gulp');
 var path = require('path');
