@@ -28,7 +28,7 @@ gulp.task('watch', [], function(done) {
 		});
 
 		process.on('exit', function() {
-			console.log('we should link the bundle back to the jar ati this point.');
+			console.log('we should link the bundle back to the jar at this point.');
 		});
 
 		done();
