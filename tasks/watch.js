@@ -14,18 +14,10 @@ gulp.task('watch', [], function(done) {
 			runSequence('browser-sync');
 		}
 
-		gulp.watch(config.globSass, function(){
-			runSequence('build-sass');
-		});
-		gulp.watch(config.globJs, function() {
-			runSequence('build-javascript');
-		});
-		gulp.watch(config.globJsp, function() {
-			runSequence('build-jsp');
-		});
-		gulp.watch(config.globSoy, function() {
-			runSequence('build-soy');
-		});
+		gulp.watch(config.globJs, ['build-javascript']);
+		gulp.watch(config.globJsp, ['build-jsp']);
+		gulp.watch(config.globSass, ['build-sass']);
+		gulp.watch(config.globSoy, ['build-soy']);
 
 		process.on('exit', function() {
 			console.log('we should link the bundle back to the jar at this point.');
