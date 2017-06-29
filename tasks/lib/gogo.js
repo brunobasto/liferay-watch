@@ -1,6 +1,7 @@
 'use strict';
 
 var GogoShell = require('gogo-shell');
+var configs = require('./configs');
 
 module.exports = {
 	getBundleId: function(symbolicName, done) {
@@ -10,7 +11,7 @@ module.exports = {
 
 		gogoShell
 		.connect({
-			port: 11311
+			port: configs.gogoPort
 		})
 		.then(function() {
 			return gogoShell.sendCommand(command);
@@ -41,7 +42,7 @@ module.exports = {
 
 		gogoShell
 		.connect({
-			port: 11311
+			port: configs.gogoPort
 		})
 		.then(function() {
 			return gogoShell.sendCommand(command);
@@ -77,7 +78,7 @@ module.exports = {
 
 		gogoShell
 		.connect({
-			port: 11311
+			port: configs.gogoPort
 		})
 		.then(function() {
 			return gogoShell.sendCommand(command);
