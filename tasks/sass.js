@@ -1,6 +1,6 @@
 'use strict';
 
-var config = require('../config');
+var config = require('./lib/configs');
 var fs = require('fs');
 var gogo = require('./lib/gogo');
 var gulp = require('gulp');

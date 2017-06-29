@@ -2,7 +2,7 @@
 
 var bnd = require('./lib/bnd');
 var gogo = require('./lib/gogo');
-var config = require('../config');
+var configs = require('./lib/configs');
 var gulp = require('gulp');
 var path = require('path');
 var unzip = require('gulp-unzip');
@@ -16,7 +16,7 @@ gulp.task('unjar', [], function(done) {
 
 			gulp.src(jarPath)
 			.pipe(unzip())
-			.pipe(gulp.dest(path.resolve(config.pathExploded)))
+			.pipe(gulp.dest(path.resolve(configs.pathExploded)))
 			.on('end', function() {
 				console.log('[unjar] Done.');
 
