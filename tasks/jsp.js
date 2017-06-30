@@ -1,23 +1,24 @@
 'use strict';
 
-var browserSync = require('browser-sync');
-var config = require('./lib/configs');
-var gulp = require('gulp');
-var path = require('path');
-var runSequence = require('run-sequence');
+const browserSync = require('browser-sync');
+const config = require('./lib/configs');
+const duration = require('gulp-duration');
+const gulp = require('gulp');
+const gutil = require('gulp-util');
+const path = require('path');
+const runSequence = require('run-sequence');
 
 gulp.task('build-jsp', [], function(done) {
-	console.log('[JSP] Copying files...');
+	const buildJspTimer = duration('jsp');
+	gutil.log(gutil.colors.magenta('jsp'), 'Copying files');
 	gulp.src(config.globJsp)
+	.pipe(buildJspTimer)
 	.pipe(gulp.dest(path.join(config.pathExploded, 'META-INF/resources')))
 	.on('end', function() {
 		runSequence('install', function() {
-			console.log('[JSP] Done.');
-
 			if (global.browserSync) {
 				browserSync.get('liferay-watch').reload();
 			}
-
 			done();
 		});
 	});
