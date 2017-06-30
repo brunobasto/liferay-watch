@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-var gulp = require('gulp');
+const gulp = require('gulp');
 
-var yargs = require('yargs')
+const yargs = require('yargs')
 	.usage('Usage: lwatch [options]')
 	.boolean('browser')
 	.alias('b', 'browser')
@@ -21,4 +21,10 @@ if (yargs.argv.browser) {
 	global.browserSync = true;
 }
 
-gulp.start.apply(gulp, ['watch']);
+const configs = require('../tasks/lib/configs')
+const soyDeps = require('../tasks/lib/soyDeps');
+
+soyDeps().then((soyDependencies) => {
+	configs.soyDeps = soyDependencies;
+	gulp.start.apply(gulp, ['watch']);
+});

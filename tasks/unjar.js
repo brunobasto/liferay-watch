@@ -1,27 +1,24 @@
 'use strict';
 
-var bnd = require('./lib/bnd');
-var gogo = require('./lib/gogo');
-var configs = require('./lib/configs');
-var gulp = require('gulp');
-var path = require('path');
-var unzip = require('gulp-unzip');
+const bnd = require('./lib/bnd');
+const configs = require('./lib/configs');
+const duration = require('gulp-duration');
+const gogo = require('./lib/gogo');
+const gulp = require('gulp');
+const gutil = require('gulp-util');
+const path = require('path');
+const unzip = require('gulp-unzip');
 
 gulp.task('unjar', [], function(done) {
-	console.log('[unjar] Unpacking deployed bundle...');
-
+	const unjarTimer = duration('unjar');
+	gutil.log(gutil.colors.magenta('unjar'), 'Unpacking deployed bundle');
 	bnd.getJarName(process.cwd(), function(jarName) {
 		gogo.getLiferayHome(function(liferayHome) {
-			var jarPath = path.join(liferayHome, 'osgi/modules', jarName);
-
-			gulp.src(jarPath)
+			gulp.src(path.join(liferayHome, 'osgi/modules', jarName))
 			.pipe(unzip())
+			.pipe(unjarTimer)
 			.pipe(gulp.dest(path.resolve(configs.pathExploded)))
-			.on('end', function() {
-				console.log('[unjar] Done.');
-
-				done();
-			});
+			.on('end', () => done());
 		});
 	});
 });
