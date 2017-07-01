@@ -1,92 +1,56 @@
 'use strict';
 
-var GogoShell = require('gogo-shell');
-var configs = require('./configs');
+const GogoShell = require('gogo-shell');
+const configs = require('./configs');
 
 module.exports = {
-	getBundleId: function(symbolicName, done) {
-		var gogoShell = new GogoShell();
-
-		var command = 'lb -s ' + symbolicName + ' | grep Active';
-
-		gogoShell
-		.connect({
-			port: configs.gogoPort
-		})
-		.then(function() {
-			return gogoShell.sendCommand(command);
-		})
-		.then(function(data) {
+	getBundleId: (symbolicName) => {
+		const gogoShell = new GogoShell();
+		const command = 'lb -s ' + symbolicName + ' | grep Active';
+		return gogoShell
+		.connect({ port: configs.gogoPort })
+		.then(() => gogoShell.sendCommand(command))
+		.then((data) => {
 			gogoShell.end();
-
-			var lines = data.split('\n');
-
-			var info = lines.filter(function(line) {
-				return line.indexOf(symbolicName) > -1 && line.trim() !== command;
-			}).map(function(line) {
-				return line.trim();
-			});
-
+			const info = data.split('\n')
+			.filter((line) => line.indexOf(symbolicName) > -1 && line.trim() !== command)
+			.map(line => line.trim());
 			if (info.length === 0) {
 				throw new Error('Could not find installed bundle.');
 			}
-
-			done(info[0].split('|').shift());
+			return info[0].split('|').shift();
 		});
 	},
 
-	getLiferayHome: function(done) {
-		var gogoShell = new GogoShell();
-
-		var command = 'equinox:props';
-
-		gogoShell
-		.connect({
-			port: configs.gogoPort
-		})
-		.then(function() {
-			return gogoShell.sendCommand(command);
-		})
-		.then(function(data) {
+	getLiferayHome: () => {
+		const gogoShell = new GogoShell();
+		const command = 'equinox:props';
+		return gogoShell
+		.connect({ port: configs.gogoPort })
+		.then(() => gogoShell.sendCommand(command))
+		.then((data) => {
 			gogoShell.end();
-
-			var lines = data.split('\n');
-
-			var info = lines.filter(function(line) {
-				return line.indexOf('liferay.home') > -1;
-			}).map(function(line) {
-				return line.trim();
-			});
-
+			const info = data.split('\n')
+			.filter(line => line.indexOf('liferay.home') > -1)
+			.map(line => line.trim());
 			if (info.length === 0) {
 				throw new Error('Could not find liferay.home.');
 			}
-
-			done(info[0].split('=').pop().trim());
+			return info[0].split('=').pop().trim();
 		});
 	},
 
-	install: function(bundleId, dir, done) {
-		var gogoShell = new GogoShell();
-
-		var command = [
+	install: (bundleId, dir) => {
+		const gogoShell = new GogoShell();
+		const command = [
 			'update ',
 			bundleId,
 			' reference:file://',
 			dir
 		].join('');
-
-		gogoShell
-		.connect({
-			port: configs.gogoPort
-		})
-		.then(function() {
-			return gogoShell.sendCommand(command);
-		})
-		.then(function(data) {
-			gogoShell.end();
-
-			done();
-		});
+		return gogoShell
+		.connect({ port: configs.gogoPort })
+		.then(() => gogoShell.sendCommand(command))
+		.then((data) => gogoShell.end());
 	}
 }

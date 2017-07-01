@@ -21,7 +21,8 @@ gulp.task('unzip-portal-common-css', [], (done) => {
 			done();
 			return;
 		}
-		gogo.getLiferayHome((liferayHome) => {
+		gogo.getLiferayHome()
+		.then((liferayHome) => {
 			gulp.src(path.join(liferayHome, 'osgi/modules', 'com.liferay.frontend.css.common.jar'))
 			.pipe(unzip({
 				filter: (entry) => {
@@ -33,7 +34,7 @@ gulp.task('unzip-portal-common-css', [], (done) => {
 			}))
 			.pipe(gulp.dest('build/portal-common-css'))
 			.on('end', () => done());
-		});
+		})
 	});
 });
 

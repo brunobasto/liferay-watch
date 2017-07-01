@@ -9,20 +9,17 @@ const gutil = require('gulp-util');
 const path = require('path');
 const pretty = require('pretty-hrtime');
 
-gulp.task('install', [], (done) => {
+gulp.task('install', [], () => {
 	const timeStart  = process.hrtime();
 	const explodedDir = path.resolve(configs.pathExploded);
-	console.time('install');
 	gutil.log(gutil.colors.magenta('install'), 'Installing bundle');
-
-	bnd.getSymbolicName(process.cwd(), (symbolicName) => {
-		gogo.getBundleId(symbolicName, (bundleId) => {
-			gogo.install(bundleId, explodedDir, () => {
-				const duration = pretty(process.hrtime(timeStart));
-				const gulpPrefix = '[' + gutil.colors.green('gulp') + ']';
-				console.log(gulpPrefix + ' install:', gutil.colors.magenta(duration));
-				done();
-			});
+	return bnd.getSymbolicName(process.cwd())
+	.then((symbolicName) => gogo.getBundleId(symbolicName))
+	.then((bundleId) => {
+		return gogo.install(bundleId, explodedDir, () => {
+			const duration = pretty(process.hrtime(timeStart));
+			const gulpPrefix = '[' + gutil.colors.green('gulp') + ']';
+			console.log(gulpPrefix + ' install:', gutil.colors.magenta(duration));
 		});
 	});
 });
