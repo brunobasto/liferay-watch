@@ -1,4 +1,6 @@
 {
+	"globClass": "classes/**/*.class",
+	"globJava": "src/main/java/**/*.java",
 	"globJs": "src/main/resources/META-INF/resources/**/*.js",
 	"globJsp": "src/main/resources/META-INF/resources/**/*.jsp",
 	"globSass": "src/main/resources/META-INF/resources/**/*.scss",

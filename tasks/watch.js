@@ -8,25 +8,43 @@ const path = require('path');
 const pretty = require('pretty-hrtime');
 const runSequence = require('run-sequence');
 
-gulp.task('watch', [], function(done) {
+gulp.task('build', (done) => {
+	Promise.all([
+		new Promise((resolve) => runSequence('build-java', resolve)),
+		new Promise((resolve) => runSequence('build-javascript', resolve)),
+		new Promise((resolve) => runSequence('build-jsp', resolve)),
+		new Promise((resolve) => runSequence('build-sass', resolve)),
+		new Promise((resolve) => runSequence('build-soy', resolve))
+	])
+	.then(() => done());
+});
+
+gulp.task('watch', ['unjar'], function(done) {
 	const timeStart  = process.hrtime();
-	runSequence('unjar', 'build-sass', 'build-soy', 'build-javascript', 'build-jsp', function() {
-		const duration = pretty(process.hrtime(timeStart));
-		const gulpPrefix = '[' + gutil.colors.green('gulp') + ']';
-		console.log(gulpPrefix + ' startup took:', gutil.colors.magenta(duration));
-		gutil.log(gutil.colors.magenta('watch'), 'Listening for changes');
-		if (global.browserSync) {
-			runSequence('browser-sync');
+	runSequence(
+		'build',
+		'install', 
+		() => {
+			const duration = pretty(process.hrtime(timeStart));
+			const gulpPrefix = '[' + gutil.colors.green('gulp') + ']';
+			console.log(gulpPrefix + ' startup took:', gutil.colors.magenta(duration));
+			gutil.log(gutil.colors.magenta('watch'), 'Listening for changes');
+			if (global.browserSync) {
+				runSequence('browser-sync');
+			}
+			gulp.task('watch-java', () => runSequence('build-java', 'install'));
+			gulp.watch(configs.globJava, ['watch-java']);
+			gulp.watch(configs.globJs, ['build-javascript']);
+			gulp.task('watch-jsp', () => runSequence('build-jsp', 'install'));
+			gulp.watch(configs.globJsp, ['watch-jsp']);
+			gulp.watch(configs.globSass, ['build-sass']);
+			gulp.watch(configs.globSoy, ['build-soy']);
+			process.on('exit', function() {
+				console.log('we should link the bundle back to the jar at this point.');
+			});
+			done();
 		}
-		gulp.watch(configs.globJs, ['build-javascript']);
-		gulp.watch(configs.globJsp, ['build-jsp']);
-		gulp.watch(configs.globSass, ['build-sass']);
-		gulp.watch(configs.globSoy, ['build-soy']);
-		process.on('exit', function() {
-			console.log('we should link the bundle back to the jar at this point.');
-		});
-		done();
-	});
+	);
 });
 
 gulp.task('browser-sync', function() {

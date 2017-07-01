@@ -6,7 +6,6 @@ const duration = require('gulp-duration');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
 const path = require('path');
-const runSequence = require('run-sequence');
 
 gulp.task('build-jsp', [], function(done) {
 	const buildJspTimer = duration('jsp');
@@ -14,12 +13,10 @@ gulp.task('build-jsp', [], function(done) {
 	gulp.src(config.globJsp)
 	.pipe(buildJspTimer)
 	.pipe(gulp.dest(path.join(config.pathExploded, 'META-INF/resources')))
-	.on('end', function() {
-		runSequence('install', function() {
-			if (global.browserSync) {
-				browserSync.get('liferay-watch').reload();
-			}
-			done();
-		});
+	.on('end', () => {
+		if (global.browserSync) {
+			browserSync.get('liferay-watch').reload();
+		}
+		done();
 	});
 });
