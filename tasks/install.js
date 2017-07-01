@@ -15,11 +15,11 @@ gulp.task('install', [], () => {
 	gutil.log(gutil.colors.magenta('install'), 'Installing bundle');
 	return bnd.getSymbolicName(process.cwd())
 	.then((symbolicName) => gogo.getBundleId(symbolicName))
-	.then((bundleId) => {
-		return gogo.install(bundleId, explodedDir, () => {
-			const duration = pretty(process.hrtime(timeStart));
-			const gulpPrefix = '[' + gutil.colors.green('gulp') + ']';
-			console.log(gulpPrefix + ' install:', gutil.colors.magenta(duration));
-		});
+	.then((bundleId) => gogo.install(bundleId, explodedDir))
+	.then(() => {
+		const duration = pretty(process.hrtime(timeStart));
+		const gulpPrefix = '[' + gutil.colors.green('gulp') + ']';
+		console.log(gulpPrefix + ' install:', gutil.colors.magenta(duration));
+		return true;
 	});
 });
