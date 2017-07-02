@@ -9,8 +9,8 @@ let moduleName = '';
 let moduleVersion = '';
 readJson(path.join(process.cwd(), 'package.json'), console.error, false, (er, data) => {
 	if (er) {
-		console.error("There was an error reading package.json")
-		return
+		console.error("There was an error reading package.json");
+		return;
 	}
 	moduleName = data.name;
 	moduleVersion = data.version;

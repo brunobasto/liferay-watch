@@ -25,5 +25,5 @@ gulp.task('unjar', (done) => {
 		.pipe(gulp.dest(path.resolve(configs.pathExploded)))
 		.on('end', () => resolve());
 	}))
-	.catch((error) => console.error(error))
+	.catch((error) => console.error(error));
 });
