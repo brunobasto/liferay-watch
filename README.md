@@ -2,6 +2,10 @@
 
 Watcher utility to help when developing on Liferay 7.0
 
+## Requirements
+
+This tool requires [Node.js](https://nodejs.org). I've only tested it at version [6.6.0](https://nodejs.org/en/blog/release/v6.6.0/), but it should work with newer versions. Please open an issue if you run into any problems.
+
 ## Installation
 
 `[sudo] npm install -g liferay-watch`
