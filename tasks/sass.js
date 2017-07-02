@@ -34,7 +34,7 @@ gulp.task('unzip-portal-common-css', [], (done) => {
 			}))
 			.pipe(gulp.dest('build/portal-common-css'))
 			.on('end', () => done());
-		})
+		});
 	});
 });
 
@@ -45,5 +45,5 @@ gulp.task('build-sass', ['unzip-portal-common-css'], (done) => {
 		includePaths: ['build/portal-common-css']
 	}))
 	.pipe(sassTimer)
-	.pipe(gulp.dest(path.join(configs.pathExploded, 'META-INF/resources')))
+	.pipe(gulp.dest(path.join(configs.pathExploded, 'META-INF/resources')));
 });

@@ -28,5 +28,5 @@ gulp.task('build-soy', () => {
 	}))
 	.pipe(replaceAmdDefine())
 	.pipe(duration('soy-compile'))
-	.pipe(gulp.dest(path.join(configs.pathExploded, 'META-INF/resources')))
+	.pipe(gulp.dest(path.join(configs.pathExploded, 'META-INF/resources')));
 });

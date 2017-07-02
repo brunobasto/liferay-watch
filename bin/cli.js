@@ -21,7 +21,7 @@ if (yargs.argv.browser) {
 	global.browserSync = true;
 }
 
-const configs = require('../tasks/lib/configs')
+const configs = require('../tasks/lib/configs');
 const soyDeps = require('../tasks/lib/soyDeps');
 
 soyDeps().then((soyDependencies) => {

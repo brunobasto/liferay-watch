@@ -53,4 +53,4 @@ module.exports = {
 		.then(() => gogoShell.sendCommand(command))
 		.then((data) => gogoShell.end());
 	}
-}
+};
