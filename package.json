@@ -33,5 +33,9 @@
     "liferay-watch"
   ],
   "name": "liferay-watch",
-  "version": "2.1.0"
+  "version": "2.1.0",
+  "devDependencies": {
+    "gulp-jshint": "^2.0.4",
+    "jshint": "^2.9.5"
+  }
 }
