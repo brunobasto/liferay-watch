@@ -23,6 +23,7 @@
     "gutil": "^1.6.4",
     "metal-tools-build-amd": "^3.0.3",
     "metal-tools-soy": "^4.2.5",
+    "node-notifier": "^5.1.2",
     "pretty-hrtime": "^1.0.3",
     "read-package-json": "^2.0.5",
     "require-dir": "^0.3.0",

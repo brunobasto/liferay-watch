@@ -2,8 +2,10 @@
 
 const browserSync = require('browser-sync').create('liferay-watch');
 const configs = require('./lib/configs');
+const fs = require('fs');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
+const notifier = require('node-notifier');
 const path = require('path');
 const pretty = require('pretty-hrtime');
 const runSequence = require('run-sequence');
@@ -19,6 +21,22 @@ gulp.task('build', (done) => {
 	.then(() => done());
 });
 
+const notify = (message) => {
+	const config = Object.assign({
+		message: message
+	}, {
+		icon: path.resolve(__dirname, '../icon.png'),
+		title: 'liferay-watch',
+		timeout: 8
+	});
+	notifier.notify(config);
+};
+
+gulp.task('notify', (done) => {
+	notify('Your changes are live. Reload the page.');
+	done();
+});
+
 gulp.task('watch', ['unjar'], function(done) {
 	const timeStart  = process.hrtime();
 	runSequence(
@@ -32,16 +50,20 @@ gulp.task('watch', ['unjar'], function(done) {
 			if (global.browserSync) {
 				runSequence('browser-sync');
 			}
-			gulp.task('watch-java', () => runSequence('build-java', 'install'));
+			gulp.task('watch-java', () => runSequence('build-java', 'install', 'notify'));
 			gulp.watch(configs.globJava, ['watch-java']);
-			gulp.watch(configs.globJs, ['build-javascript']);
-			gulp.task('watch-jsp', () => runSequence('build-jsp', 'install'));
+			gulp.task('watch-javascript', () => runSequence('build-javascript', 'notify'));
+			gulp.watch(configs.globJs, ['watch-javascript']);
+			gulp.task('watch-jsp', () => runSequence('build-jsp', 'install', 'notify'));
 			gulp.watch(configs.globJsp, ['watch-jsp']);
-			gulp.watch(configs.globSass, ['build-sass']);
-			gulp.watch(configs.globSoy, ['build-soy']);
+			gulp.task('watch-sass', () => runSequence('build-sass', 'notify'));
+			gulp.watch(configs.globSass, ['watch-sass']);
+			gulp.task('watch-soy', () => runSequence('build-soy', 'notify'));
+			gulp.watch(configs.globSoy, ['watch-soy']);
 			process.on('exit', function() {
 				console.log('we should link the bundle back to the jar at this point.');
 			});
+			notify('Ready! Waiting for changes.');
 			done();
 		}
 	);
