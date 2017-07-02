@@ -4,6 +4,10 @@
   "bin": {
     "lwatch": "./bin/cli.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brunobasto/liferay-watch"
+  },
   "dependencies": {
     "browser-sync": "^2.11.2",
     "gogo-shell": "0.0.5",
