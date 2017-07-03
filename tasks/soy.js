@@ -8,11 +8,13 @@ const duration = require('gulp-duration');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
 const path = require('path');
+const plumber = require('gulp-plumber');
 const replaceAmdDefine = require('./lib/replaceAmdDefine');
 
 gulp.task('build-soy', () => {
 	gutil.log(gutil.colors.magenta('soy'), 'Compiling soy files. This may take a while.');
 	return gulp.src(configs.globSoy)
+	.pipe(plumber())
 	.pipe(gulp.dest(path.join(configs.pathExploded, 'META-INF/resources')))
 	.pipe(compileSoy({
 		handleError: error => console.error(error),
