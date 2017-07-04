@@ -22,6 +22,9 @@ gulp.task('build', (done) => {
 });
 
 const notify = (message) => {
+	if (!configs.notifications) {
+		return false;
+	}
 	const config = Object.assign({
 		message: message
 	}, {
