@@ -6,7 +6,6 @@ const path = require('path');
 
 let configs = require('../../config.json');
 const userConfigsPath = path.resolve(require('os').homedir(), '.lwatch.json');
-console.log(userConfigsPath);
 if (fs.existsSync(userConfigsPath)) {
 	configs = Object.assign(configs, require(userConfigsPath));
 }
