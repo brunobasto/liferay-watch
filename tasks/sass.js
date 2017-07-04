@@ -11,10 +11,7 @@ const rename = require('gulp-rename');
 const sass = require('gulp-sass');
 const unzip = require('gulp-unzip');
 
-let sassTimer = duration('sass');
-
 gulp.task('unzip-portal-common-css', [], (done) => {
-	sassTimer.start();
 	gutil.log(gutil.colors.magenta('sass'), 'Extracting portal common CSS');
 	fs.stat('build/portal-common-css', (err, stats) => {
 		if (stats && stats.isDirectory()) {
@@ -44,6 +41,6 @@ gulp.task('build-sass', ['unzip-portal-common-css'], (done) => {
 	.pipe(sass({
 		includePaths: ['build/portal-common-css']
 	}))
-	.pipe(sassTimer)
+	.pipe(duration('sass'))
 	.pipe(gulp.dest(path.join(configs.pathExploded, 'META-INF/resources')));
 });
