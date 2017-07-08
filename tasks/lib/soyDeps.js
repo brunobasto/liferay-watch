@@ -15,6 +15,7 @@ module.exports = () => {
 			cp.stdout.on('data', (data) => {
 				gradleOutput += data.toString();
 			});
+			cp.stderr.pipe(process.stderr);
 			cp.on('exit', (code) => {
 				if (code === 0) {
 					const makeSoyDepGlob = dep => path.join('build', dep, 'META-INF/resources', '**/*.soy');

@@ -13,6 +13,7 @@ module.exports = () => {
 			cp.stdout.on('data', (data) => {
 				gradleOutput += data.toString();
 			});
+			cp.stderr.pipe(process.stderr);
 			cp.on('exit', (code) => {
 				if (code === 0) {
 					let projectDeps = gradleOutput.split('\n')

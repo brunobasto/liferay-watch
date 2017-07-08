@@ -28,10 +28,7 @@ gulp.task('build-java', (done) => {
 	projectDeps().then((projects) => {
 		gutil.log(gutil.colors.magenta('java'), 'Compiling Java');
 		const cp = childProcess.spawn('gradle', buildGradleArgs(projects), { cwd: process.cwd() });
-		let stdErr = '';
-		cp.stderr.on('data', (chunk) => {
-			stdErr += chunk.toString();
-		});
+		cp.stderr.pipe(process.stderr);
 		cp.on('exit', (code) => {
 			if (code === 0) {
 				gulp.src(configs.globClass)
@@ -40,7 +37,6 @@ gulp.task('build-java', (done) => {
 				.on('end', () => done());
 			}
 			else {
-				console.log(stdErr);
 				gutil.log(gutil.colors.magenta('java'), gutil.colors.red('Errors compiling Java. Check compiler output.'));
 				done();
 			}
