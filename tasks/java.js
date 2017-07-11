@@ -1,11 +1,11 @@
 'use strict';
 
-const childProcess = require('child_process');
 const configs = require('./lib/configs');
 const duration = require('gulp-duration');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
 const projectDeps = require('./lib/projectDeps');
+const gradleChildProcess = require('./lib/gradleChildProcess');
 
 const buildGradleArgs = (projects) => {
 	const skippedTasks = [
@@ -27,7 +27,7 @@ gulp.task('build-java', (done) => {
 	const javaTimer = duration('java');
 	projectDeps().then((projects) => {
 		gutil.log(gutil.colors.magenta('java'), 'Compiling Java');
-		const cp = childProcess.spawn('gradle', buildGradleArgs(projects), { cwd: process.cwd() });
+		const cp = gradleChildProcess(buildGradleArgs(projects));
 		cp.stderr.pipe(process.stderr);
 		cp.on('exit', (code) => {
 			if (code === 0) {

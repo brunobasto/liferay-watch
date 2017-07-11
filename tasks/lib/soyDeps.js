@@ -1,8 +1,8 @@
 'use strict';
 
-const childProcess = require('child_process');
 const configs = require('./configs');
 const path = require('path');
+const gradleChildProcess = require('./gradleChildProcess');
 
 module.exports = () => {
 	return new Promise((resolve, reject) => {
@@ -10,7 +10,7 @@ module.exports = () => {
 			resolve(global.soyDeps);
 		}
 		else {
-			const cp = childProcess.spawn('gradle', ['dependencies', '--configuration', 'soyCompile'], { cwd: process.cwd() });
+			const cp = gradleChildProcess(['dependencies', '--configuration', 'soyCompile']);
 			let gradleOutput = '';
 			cp.stdout.on('data', (data) => {
 				gradleOutput += data.toString();
