@@ -10,11 +10,11 @@ module.exports = (args) => {
 	if (fs.existsSync(gradleSettingsFilePath)) {
 		const gradleSettingsTempFilePath = gradleSettingsFilePath + '.tmp';
 
-		fs.rename(gradleSettingsFilePath, gradleSettingsTempFilePath);
+		fs.renameSync(gradleSettingsFilePath, gradleSettingsTempFilePath);
 
 		const cp = childProcess.spawn('gradle', args, { cwd });
 
-		cp.on('exit', () => fs.rename(gradleSettingsTempFilePath, gradleSettingsFilePath));
+		cp.on('exit', () => fs.renameSync(gradleSettingsTempFilePath, gradleSettingsFilePath));
 
 		return cp;
 	}
