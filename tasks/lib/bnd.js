@@ -16,11 +16,22 @@ class Bnd {
 				const reader = readline.createInterface({
 					input: fs.createReadStream(bnd)
 				});
+
+				var foundName = false;
+
 				reader.on('line', function(line) {
 					if (line.indexOf('Bundle-SymbolicName') === 0) {
 						const parts = line.split(':');
 
+						foundName = true;
+
 						resolve(parts[1].trim());
+					}
+				});
+
+				reader.on('close', function() {
+					if (!foundName) {
+						resolve(path.basename(process.cwd()));
 					}
 				});
 			}
